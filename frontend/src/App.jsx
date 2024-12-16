@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+import PropTypes from 'prop-types';
 import axios from "axios";
+
 import {
   Table,
   TableBody,
@@ -14,10 +16,12 @@ import {
   Typography,
   CircularProgress,
   Box,
+  Button,
 } from "@mui/material";
 import { Refresh, CheckCircle, Cancel } from "@mui/icons-material";
 
-function App() {
+function App({ currentUser, onLogout }) {
+
   const [orders, setOrders] = useState([]);
   const [renderData, setRenderData] = useState([]);
   const [totalItems, setTotalItems] = useState(1);
@@ -178,6 +182,28 @@ console.log(ordenesOrdenadas)
         >
           <Refresh />
         </IconButton>
+      {/* <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "20px" }}> */}
+      <Typography
+                variant="subtitle1"
+                style={{
+                  color: "#1976d2", // Cambiado para que coincida con el color principal
+                  marginRight: "10px",
+                  display: "inline-block",
+                  fontWeight: "bold", // Añadido para resaltar el texto
+                  fontSize: "1rem", // Ajuste del tamaño de fuente
+                }}
+              >
+                {`Usuario: ${currentUser}`}
+              </Typography>
+              <Button
+                variant="contained"
+                color="error"
+                onClick={onLogout}
+                style={{ padding: "8px 16px" }}
+              >
+                Salir
+              </Button>
+            {/* </div> */}
       </div>
       <TableContainer component={Paper} style={{ borderRadius: "10px" }}>
         <Table>
@@ -466,6 +492,11 @@ console.log(ordenesOrdenadas)
 //     </div>
 //   );
 // }
+
+App.propTypes = {
+  currentUser: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
 
 export default App;
 
