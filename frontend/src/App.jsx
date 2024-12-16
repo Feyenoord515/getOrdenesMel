@@ -29,6 +29,19 @@ function App({ currentUser, onLogout }) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(50);
 
+  const fetchOrders = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get("https://mcdistri.distrinando.com.ar/endpoint");
+      setOrders(response.data.ordersIds); // Datos paginados
+      setTotalItems(response.data.totalItems); // Total sin paginar
+    } catch (error) {
+      console.error("Error fetching orders:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   useEffect(() => {
     const fetchOrders = async () => {
       setIsLoading(true);
@@ -177,7 +190,7 @@ console.log(ordenesOrdenadas)
           Órdenes Mercado Libre - 361°
         </Typography>
         <IconButton
-          onClick={() => window.location.reload()}
+          onClick={fetchOrders} 
           style={{ backgroundColor: "#1976d2", color: "white" }}
         >
           <Refresh />
