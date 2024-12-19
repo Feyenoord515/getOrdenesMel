@@ -57,6 +57,12 @@ function App({ currentUser, onLogout }) {
     };
 
     fetchOrders(); // Llamar siempre que cambie la página o las filas por página
+
+    const intervalId = setInterval(() => {
+      fetchOrders();
+    }, 30 * 60 * 1000); // 30 minutos en milisegundos
+
+    return () => clearInterval(intervalId); // Limpiar el intervalo al desmontar
   }, [page, rowsPerPage]);
   console.log(orders?orders:null)
   const ordenarPorFechaDesc = (ordenes) =>
