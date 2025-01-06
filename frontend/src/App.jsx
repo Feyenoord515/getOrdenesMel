@@ -97,6 +97,7 @@ function App({ currentUser, onLogout }) {
         // Procesar las órdenes individuales
         if (ordenesAgrupadas["Individual"]) {
           ordenesAgrupadas["Individual"].forEach((orden) => {
+            console.log(orden)
             elementosParaRender.push({
               packId: "Individual",
               orderId: orden.id,
@@ -105,25 +106,35 @@ function App({ currentUser, onLogout }) {
               totalAmount: orden.total_amount,
               currency: orden.currency_id,
               sapOrder:
-                orden.statusIdsap.order.length > 0
-                  ? orden.statusIdsap.order[0].DocEntry
-                  : "Sin Datos",
-              sapInvoice:
-                orden.statusIdsap.invoice.length > 0
-                  ? orden.statusIdsap.invoice[0].DocEntry
-                  : "Sin Datos",
-              sapDate:
-                orden.statusIdsap.order.length > 0
-                  ? orden.statusIdsap.order[0].DocDate
-                  : "Sin Datos",
-              sapTotal:
-                orden.statusIdsap.order.length > 0
-                  ? orden.statusIdsap.order[0].DocTotal
-                  : "Sin Datos",
-              sapStatus:
-                orden.statusIdsap.order.length > 0
-                  ? orden.statusIdsap.order[0].DocumentStatus
-                  : "Sin Datos",
+  orden.statusIdsap.order1.length > 0
+    ? orden.statusIdsap.order1[0].DocEntry
+    : orden.statusIdsap.order2.length > 0
+    ? orden.statusIdsap.order2[0].DocEntry
+    : "Sin Datos",
+sapInvoice:
+  orden.statusIdsap.invoice1.length > 0
+    ? orden.statusIdsap.invoice1[0].DocEntry
+    : orden.statusIdsap.invoice2.length > 0
+    ? orden.statusIdsap.invoice2[0].DocEntry
+    : "Sin Datos",
+sapDate:
+  orden.statusIdsap.order1.length > 0
+    ? orden.statusIdsap.order1[0].DocDate
+    : orden.statusIdsap.order2.length > 0
+    ? orden.statusIdsap.order2[0].DocDate
+    : "Sin Datos",
+sapTotal:
+  orden.statusIdsap.order1.length > 0
+    ? orden.statusIdsap.order1[0].DocTotal
+    : orden.statusIdsap.order2.length > 0
+    ? orden.statusIdsap.order2[0].DocTotal
+    : "Sin Datos",
+sapStatus:
+  orden.statusIdsap.order1.length > 0
+    ? orden.statusIdsap.order1[0].DocumentStatus
+    : orden.statusIdsap.order2.length > 0
+    ? orden.statusIdsap.order2[0].DocumentStatus
+    : "Sin Datos",
             });
           });
         }
@@ -146,25 +157,35 @@ function App({ currentUser, onLogout }) {
               totalAmount: totalPackAmount,
               currency: ordenesDelPack[0].currency_id,
               sapOrder:
-                ordenesDelPack[0].statusIdsap.order.length > 0
-                  ? ordenesDelPack[0].statusIdsap.order[0].DocEntry
-                  : "Sin Datos",
-              sapInvoice:
-                ordenesDelPack[0].statusIdsap.invoice.length > 0
-                  ? ordenesDelPack[0].statusIdsap.invoice[0].DocEntry
-                  : "Sin Datos",
-              sapDate:
-                ordenesDelPack[0].statusIdsap.order.length > 0
-                  ? ordenesDelPack[0].statusIdsap.order[0].DocDate
-                  : "Sin Datos",
-              sapTotal:
-                ordenesDelPack[0].statusIdsap.order.length > 0
-                  ? ordenesDelPack[0].statusIdsap.order[0].DocTotal
-                  : "Sin Datos",
-              sapStatus:
-                ordenesDelPack[0].statusIdsap.order.length > 0
-                  ? ordenesDelPack[0].statusIdsap.order[0].DocumentStatus
-                  : "Sin Datos",
+              ordenesDelPack[0].statusIdsap.order1.length > 0
+                ? ordenesDelPack[0].statusIdsap.order1[0].DocEntry
+                : ordenesDelPack[0].statusIdsap.order2.length > 0
+                ? ordenesDelPack[0].statusIdsap.order2[0].DocEntry
+                : "Sin Datos",
+            sapInvoice:
+              ordenesDelPack[0].statusIdsap.invoice1.length > 0
+                ? ordenesDelPack[0].statusIdsap.invoice1[0].DocEntry
+                : ordenesDelPack[0].statusIdsap.invoice2.length > 0
+                ? ordenesDelPack[0].statusIdsap.invoice2[0].DocEntry
+                : "Sin Datos",
+            sapDate:
+              ordenesDelPack[0].statusIdsap.order1.length > 0
+                ? ordenesDelPack[0].statusIdsap.order1[0].DocDate
+                : ordenesDelPack[0].statusIdsap.order2.length > 0
+                ? ordenesDelPack[0].statusIdsap.order2[0].DocDate
+                : "Sin Datos",
+            sapTotal:
+              ordenesDelPack[0].statusIdsap.order1.length > 0
+                ? ordenesDelPack[0].statusIdsap.order1[0].DocTotal
+                : ordenesDelPack[0].statusIdsap.order2.length > 0
+                ? ordenesDelPack[0].statusIdsap.order2[0].DocTotal
+                : "Sin Datos",
+            sapStatus:
+              ordenesDelPack[0].statusIdsap.order1.length > 0
+                ? ordenesDelPack[0].statusIdsap.order1[0].DocumentStatus
+                : ordenesDelPack[0].statusIdsap.order2.length > 0
+                ? ordenesDelPack[0].statusIdsap.order2[0].DocumentStatus
+                : "Sin Datos",
             });
           });
 
@@ -224,74 +245,76 @@ console.log(ordenesOrdenadas)
               </Button>
             {/* </div> */}
       </div>
-      <TableContainer component={Paper} style={{ borderRadius: "10px" }}>
-        <Table>
-          <TableHead>
-            <TableRow style={{ backgroundColor: "#1976d2" }}>
-              {[
-                "Pack ID",
-                "Order ID",
-                "Created At",
-                "Status",
-                "Total",
-                "SAP Order",
-                "SAP Invoice",
-                "SAP Fecha",
-                "SAP Importe",
-                "SAP Estado",
-              ].map((header, index) => (
-                <TableCell key={index} style={{ color: "white", fontWeight: "bold" }}>
-                  {header}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {ordenesOrdenadas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-              <TableRow key={index} hover>
-                <TableCell>{row.packId}</TableCell>
-                <TableCell>{Array.isArray(row.orderIds) && row.orderIds.length > 1 ? (
-                  <ol>
-                    {row.orderIds.map((orderId, idx) => (
-                      <li key={idx}>{orderId}</li>
-                    ))}
-                  </ol>
-                ) : (
-                  row.orderId || "N/A"
-                )}</TableCell>
-                <TableCell>{row.createdAt}</TableCell>
-                <TableCell>
-                  <Chip
-                    label={row.status}
-                    color={row.status === "paid" ? "success" : "error"}
-                    icon={row.status === "paid" ? <CheckCircle /> : <Cancel />}
-                  />
-                </TableCell>
-                <TableCell>{`${row.totalAmount} ${row.currency}`}</TableCell>
-                <TableCell>{row.sapOrder}</TableCell>
-                <TableCell>{row.sapInvoice}</TableCell>
-                <TableCell>{row.sapDate}</TableCell>
-                <TableCell>{row.sapTotal}</TableCell>
-                <TableCell>
-                  <Chip
-                    label={row.sapStatus}
-                    color={row.sapStatus === "bost_Open" ? "success" : "error"}
-                  />
-                </TableCell>
+      <div style={{ overflowX: "auto" }}>
+        <TableContainer component={Paper} style={{ borderRadius: "10px" }}>
+          <Table>
+            <TableHead>
+              <TableRow style={{ backgroundColor: "#1976d2" }}>
+                {[
+                  "Pack ID",
+                  "Order ID",
+                  "Created At",
+                  "Status",
+                  "Total",
+                  "SAP Order",
+                  "SAP Invoice",
+                  "SAP Fecha",
+                  "SAP Importe",
+                  "SAP Estado",
+                ].map((header, index) => (
+                  <TableCell key={index} style={{ color: "white", fontWeight: "bold" }}>
+                    {header}
+                  </TableCell>
+                ))}
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
-        component="div"
-        count={totalItems} // Total de elementos
-        rowsPerPage={rowsPerPage} // Filas por página
-        page={page} // Página actual
-        onPageChange={handleChangePage} // Cambio de página
-        onRowsPerPageChange={handleChangeRowsPerPage} // Cambio de filas por página
-      />
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {ordenesOrdenadas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                <TableRow key={index} hover>
+                  <TableCell>{row.packId}</TableCell>
+                  <TableCell>{Array.isArray(row.orderIds) && row.orderIds.length > 1 ? (
+                    <ol>
+                      {row.orderIds.map((orderId, idx) => (
+                        <li key={idx}>{orderId}</li>
+                      ))}
+                    </ol>
+                  ) : (
+                    row.orderId || "N/A"
+                  )}</TableCell>
+                  <TableCell>{row.createdAt}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={row.status}
+                      color={row.status === "paid" ? "success" : "error"}
+                      icon={row.status === "paid" ? <CheckCircle /> : <Cancel />}
+                    />
+                  </TableCell>
+                  <TableCell>{`${row.totalAmount} ${row.currency}`}</TableCell>
+                  <TableCell>{row.sapOrder}</TableCell>
+                  <TableCell>{row.sapInvoice}</TableCell>
+                  <TableCell>{row.sapDate}</TableCell>
+                  <TableCell>{row.sapTotal}</TableCell>
+                  <TableCell>
+                    <Chip
+                      label={row.sapStatus}
+                      color={row.sapStatus === "bost_Open" ? "success" : "error"}
+                    />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <TablePagination
+          rowsPerPageOptions={[10, 25, 50]}
+          component="div"
+          count={totalItems} // Total de elementos
+          rowsPerPage={rowsPerPage} // Filas por página
+          page={page} // Página actual
+          onPageChange={handleChangePage} // Cambio de página
+          onRowsPerPageChange={handleChangeRowsPerPage} // Cambio de filas por página
+        />
+        </TableContainer>
+      </div>
       </>
       )}
     </div>
