@@ -320,7 +320,9 @@ sapStatus:
     </div>
   );
 }
+App.propTypes = {
+  currentUser: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
+};
 
-
-
-
+export default App;
