@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { Button, TextField, Typography, Box } from "@mui/material";
 
 const userCredentials = {
-  admin: "a2?hw1^qU]0N",
-  Mauricio: "M8&vQ3!rT5@z",
-  Matias: "P4#xW7^kL2*e",
-  Octavio: "O9!bR6&yN1@u",
-  Guillermo: "G3^tZ8#pF4!m",
-};
+  admin: import.meta.env.VITE_ADMIN,
+  Mauricio: import.meta.env.VITE_MAURICIO,
+  Matias: import.meta.env.VITE_MATIAS,
+  Octavio: import.meta.env.VITE_OCTAVIO,
+  Guillermo: import.meta.env.VITE_GUILLERMO,
+}
 
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ export default function Login({ onLogin }) {
       setError("Credenciales incorrectas");
     }
   };
-
+  
   return (
     <Box
       display="flex"
